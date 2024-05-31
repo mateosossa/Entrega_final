@@ -32,7 +32,7 @@ class ManageRolesMiddleware
 
 
     
-    if ($role && $role == 'Admin' || $role && $role == 'Leader') {
+    if ($role && $role == 'Reader User') {
         
        
         return $next($request);

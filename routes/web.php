@@ -1,27 +1,30 @@
 <?php
 
+use App\Http\Middleware\ManageRolesMiddleware;
+use App\Http\Middleware\UserReadMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\NominaController;
 use App\Http\Controllers\InformeController;
+use App\Http\Controllers\UserController;
 
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::middleware(['auth', 'can:Admin'])->group(function () {
+Route::middleware([ManageRolesMiddleware::class])->group(function () {
     Route::get('Admin/roles/assign', [RoleController::class, 'assignRolesForm'])->name('roles.assign');
-Route::post('Admin/roles/assign', [RoleController::class, 'assignRoles']);
-    Route::get('Admin/roles', [RoleController::class, 'index'])->name('roles.index');
-    Route::get('Admin/roles/create', [RoleController::class, 'create'])->name('roles.create');
-    Route::post('Admin/roles', [RoleController::class, 'store'])->name('roles.store');
-    Route::get('Admin/roles/{role}', [RoleController::class, 'show'])->name('roles.show');
-    Route::get('Admin/roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
-    Route::put('Admin/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
-    Route::delete('Admin/roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+    Route::post('Admin/roles/assign', [RoleController::class, 'assignRoles']);
+    Route::get('Admin/roles', [RoleController::class, 'index']);
+    Route::get('Admin/roles/create', [RoleController::class, 'create']);
+    Route::post('Admin/roles', [RoleController::class, 'store']);
+    Route::get('Admin/roles/{role}', [RoleController::class, 'show']);
+    Route::get('Admin/roles/{role}/edit', [RoleController::class, 'edit']);
+    Route::put('Admin/roles/{role}', [RoleController::class, 'update']);
+    Route::delete('Admin/roles/{role}', [RoleController::class, 'destroy']);
 });
 
-use App\Http\Controllers\UserController;
+
 
 
 Route::middleware(['auth'])->group(function () {
@@ -43,11 +46,10 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::prefix('admin')->group(function () {
+Route::middleware([UserReadMiddleware::class])->group(function () {
         Route::resource('informes', InformeController::class);
         Route::get('informes/export', [InformeController::class, 'export'])->name('informes.export');
-    });
+    
 });
 
 

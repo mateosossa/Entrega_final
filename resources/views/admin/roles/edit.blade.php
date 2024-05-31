@@ -14,15 +14,20 @@
                     </div>
                     <div class="form-group">
                         <label for="permissions">Assign Permissions</label>
-                        <select name="permissions[]" class="form-control" multiple required>
+                        <div>
                             @foreach ($permissions as $permission)
-                                <option value="{{ $permission->id }}" {{ in_array($permission->id, $rolePermissions) ? 'selected' : '' }}>
-                                    {{ $permission->name }}
-                                </option>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="permissions[]" value="{{ $permission->id }}" id="permission{{ $permission->id }}"
+                                           {{ in_array($permission->id, $rolePermissions) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="permission{{ $permission->id }}">
+                                        {{ $permission->name }}
+                                    </label>
+                                </div>
                             @endforeach
-                        </select>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
+                    <a href="{{ route('roles.index') }}" class="btn btn-secondary">Back</a>
                 </form>
             </div>
         </div>

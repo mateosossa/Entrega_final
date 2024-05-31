@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+
 
 class RoleController extends Controller
 {
-    public function __construct()
+    /*public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('can:Admin');
-    }
+    }*/
 
     public function index()
     {
@@ -23,10 +24,10 @@ class RoleController extends Controller
     }
 
     public function create()
-    {
-        $permissions = Permission::all();
-        return view('admin.roles.create', compact('permissions'));
-    }
+{
+    $permissions = Permission::all();
+    return view('admin.roles.create', compact('permissions'));
+}
 
     public function store(Request $request)
     {
@@ -68,16 +69,16 @@ class RoleController extends Controller
     $user = User::findOrFail($request->input('user_id'));
     $roles = $request->input('roles');
 
-    // Verificar si el usuario tiene roles seleccionados
+    
     if (!empty($roles)) {
-        // Asignar roles al usuario
+        
         $user->roles()->sync($roles);
         
-        // Obtener el primer rol seleccionado y asignarlo a role_id
+        
         $role = Role::findOrFail($roles[0]);
         $user->role_id = $role->id;
     } else {
-        // Si no se seleccionaron roles, establecer el role_id como NULL
+        
         $user->role_id = null;
     }
 
@@ -102,8 +103,11 @@ class RoleController extends Controller
     }
 
     public function destroy($id)
-    {
-        Role::findOrFail($id)->delete();
-        return redirect()->route('admin.roles.index')->with('success', 'Role deleted successfully');
-    }
+{
+    $role = Role::findOrFail($id);
+    
+    \DB::table('roles')->where('id', $role->id)->delete();
+
+    return redirect()->route('roles.index')->with('success', 'Role deleted successfully');
+}
 }
