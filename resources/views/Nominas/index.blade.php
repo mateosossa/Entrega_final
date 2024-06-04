@@ -7,6 +7,12 @@
 @stop
 
 @section('content')
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -26,7 +32,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($nominas as $nomina)
+                            @forelse ($nominas as $nomina)
                                 <tr>
                                     <td>{{ $nomina->id }}</td>
                                     <td>{{ $nomina->usuario->name }}</td>
@@ -35,14 +41,18 @@
                                     <td>
                                         <a href="{{ route('nominas.show', $nomina->id) }}" class="btn btn-sm btn-info">Ver</a>
                                         <a href="{{ route('nominas.edit', $nomina->id) }}" class="btn btn-sm btn-primary">Editar</a>
-                                        <form action="{{ route('nominas.destroy', $nomina->id) }}" method="POST" style="display: inline;">
+                                        <form action="{{ route('nominas.destroy', $nomina->id) }}" method="POST" class="delete-form" data-id="{{ $nomina->id }}" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="5">No hay nóminas disponibles.</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -63,6 +73,25 @@
     <script>
         $(document).ready(function () {
             $('#dataTable').DataTable();
+
+            $('.delete-form').on('submit', function (e) {
+                e.preventDefault();
+                var form = this;
+
+                if (confirm('¿Estás seguro de que deseas eliminar esta nómina?')) {
+                    $.ajax({
+                        type: 'POST',
+                        url: $(form).attr('action'),
+                        data: $(form).serialize(),
+                        success: function (response) {
+                            window.location.href = "{{ route('nominas.index') }}";
+                        },
+                        error: function (response) {
+                            alert('Ocurrió un error al intentar eliminar la nómina.');
+                        }
+                    });
+                }
+            });
         });
     </script>
 @stop

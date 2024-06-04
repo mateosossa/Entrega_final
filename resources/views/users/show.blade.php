@@ -8,11 +8,14 @@
         <div class="card-body">
             <p><strong>Nombre:</strong> {{ $user->name }}</p>
             <p><strong>Email:</strong> {{ $user->email }}</p>
-            @if ($user->roles2)
-                <p><strong>Rol:</strong> {{ $user->roles2->name }}</p>
+            @if ($user->role)
+                <p><strong>Rol:</strong> {{ $user->role->name }}</p>
             @else
                 <p><strong>Rol:</strong> Sin rol asignado</p>
             @endif
+        </div>
+        <div class="card-footer">
+            <a href="{{ route('users.index') }}" class="btn btn-primary">Volver</a>
         </div>
     </div>
 @endsection

@@ -46,7 +46,7 @@ class UserController extends Controller
 
     public function show(User $user)
 {
-    $user->load('roles2'); // Cargar la relación 'roles2'
+    $user->load('role'); // Cargar la relación 'roles2'
     return view('users.show', compact('user'));
 }
 

@@ -22,7 +22,7 @@
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ optional($user->roles2)->name ?: 'Sin rol' }}</td> <!-- Mostrar el nombre del rol -->
+                            <td>{{ optional($user->role)->name ?: 'Sin rol' }}</td> <!-- Mostrar el nombre del rol -->
                             <td>
                                 <a href="{{ route('users.show', $user->id) }}" class="btn btn-info btn-sm">Ver</a>
                                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary btn-sm">Editar</a>

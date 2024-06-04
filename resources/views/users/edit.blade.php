@@ -20,5 +20,8 @@
                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
             </form>
         </div>
+        <div class="card-footer">
+            <a href="{{ route('users.index') }}" class="btn btn-secondary">Volver</a>
+        </div>
     </div>
 @endsection

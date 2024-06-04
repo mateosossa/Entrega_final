@@ -42,7 +42,7 @@
                                     <td>{{ $informe->fecha_realizacion }}</td>
                                     <td>{{ $informe->monto_nomina }}</td>
                                     <td>
-                                        <a href="{{ route('informes.show', $informe) }}" class="btn btn-sm btn-info">Ver</a>
+                                        <a href="{{ route('informes.show', $informe) }}" class="btn btn-sm btn-info">editar</a>
                                     </td>
                                 </tr>
                             @empty

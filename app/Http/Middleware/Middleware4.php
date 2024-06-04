@@ -1,12 +1,14 @@
 <?php
 
+//Parte de stiven
+
 namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-class ManageRolesMiddleware
+class Middleware4
 {
     /**
      * Handle an incoming request.
@@ -16,28 +18,22 @@ class ManageRolesMiddleware
      * @return mixed
      */
     public function handle(Request $request, Closure $next) {   
-
     
     $user = $request->user();
     if (!$user) {
         
         return redirect()->route('login'); 
-    }
-
-    
-
-    
+    }  
 
     $role = $user->role->name;
 
 
     
-    if ($role && $role == 'Analityc') {
+    if ($role && $role == 'Admin' || $role && $role =='Analyst' || $role && $role == 'Reader User' || $role && $role == 'Leader'|| $role && $role == 'Director') {
         
        
         return $next($request);
     }
-
     
     return abort(403, 'No tienes permisos para acceder a esta sección.');
 }

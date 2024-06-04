@@ -1,6 +1,8 @@
 <?php
 
-//parte de Stiven
+
+//Parte de stiven 
+
 
 namespace App\Http\Middleware;
 
@@ -8,7 +10,7 @@ use Closure;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-class ManageRolesMiddleware
+class Middleware2
 {
     /**
      * Handle an incoming request.
@@ -29,7 +31,7 @@ class ManageRolesMiddleware
 
 
     
-    if ($role && $role == 'Admin' || $role && $role =='Leader') {
+    if ($role && $role == 'Admin' || $role && $role =='Analyst') {
         
        
         return $next($request);
